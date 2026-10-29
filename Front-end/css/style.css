@@ -1,0 +1,69 @@
+/* Custom Styles for Dynamic Student Registration System */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card Hover Effects */
+.card-hover-effect {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover-effect:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+}
+
+/* Hotspot Interactive Diagram */
+.hotspot-container {
+    position: relative;
+}
+.hotspot-pin {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    background-color: #0d6efd;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.4);
+    z-index: 10;
+    transition: transform 0.2s ease;
+}
+.hotspot-pin:hover {
+    transform: scale(1.25);
+    background-color: #ffc107;
+    color: #000;
+}
+.hotspot-pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(13, 110, 253, 0.6);
+    animation: pulse 2s infinite;
+    z-index: -1;
+}
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* Light Gallery Interactive Cards */
+.interactive-card-light {
+    transition: transform 0.3s ease;
+}
+.interactive-card-light:hover {
+    transform: scale(1.03);
+}
+.card-img-overlay-hover {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.interactive-card-light:hover .card-img-overlay-hover {
+    opacity: 1;
+}

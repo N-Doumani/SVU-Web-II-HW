@@ -1,0 +1,105 @@
+{
+  "project": "Dynamic Student Registration System (BWP501)",
+  "baseUrl": "/api",
+  "endpoints": [
+    {
+      "name": "User Registration",
+      "endpoint": "POST /api/register.php",
+      "description": "Register a new user account with hashed password",
+      "requestPayload": {
+        "username": "string (min 3 chars)",
+        "email": "string (valid email)",
+        "password": "string (min 6 chars)",
+        "confirm_password": "string"
+      },
+      "responses": {
+        "201": { "status": "success", "message": "User registered successfully" },
+        "400": { "status": "error", "message": "Validation failed / Email already exists" }
+      }
+    },
+    {
+      "name": "User Login",
+      "endpoint": "POST /api/login.php",
+      "description": "Authenticate user/admin and establish PHP Session",
+      "requestPayload": {
+        "username_email": "string",
+        "password": "string"
+      },
+      "responses": {
+        "200": { "status": "success", "message": "Login successful", "redirect": "dashboard.html" },
+        "401": { "status": "error", "message": "Invalid credentials" }
+      }
+    },
+    {
+      "name": "Get All Students (CRUD - Read)",
+      "endpoint": "GET /api/view_students.php?page=1&search=&sort=id",
+      "description": "Fetch student list with pagination and search filter",
+      "responses": {
+        "200": {
+          "status": "success",
+          "total_records": 42,
+          "current_page": 1,
+          "per_page": 10,
+          "data": [
+            {
+              "id": 1,
+              "name": "أحمد علي",
+              "email": "ahmed@example.com",
+              "phone": "0991234567",
+              "address": "دمشق - المزة",
+              "profile_picture": "uploads/student_1.jpg",
+              "created_at": "2026-10-28 10:00:00"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Add Student (CRUD - Create)",
+      "endpoint": "POST /api/add_student.php",
+      "description": "Add new student with optional profile picture upload",
+      "contentType": "multipart/form-data",
+      "requestPayload": {
+        "name": "string (required)",
+        "email": "string (required, unique)",
+        "phone": "string (required)",
+        "address": "string",
+        "profile_picture": "file (optional, jpg/png)"
+      },
+      "responses": {
+        "201": { "status": "success", "message": "Student created successfully", "student_id": 43 },
+        "400": { "status": "error", "message": "Invalid form fields" }
+      }
+    },
+    {
+      "name": "Update Student (CRUD - Update)",
+      "endpoint": "POST /api/update_student.php",
+      "description": "Update existing student record by ID",
+      "contentType": "multipart/form-data",
+      "requestPayload": {
+        "id": "integer (required)",
+        "name": "string",
+        "email": "string",
+        "phone": "string",
+        "address": "string",
+        "profile_picture": "file (optional)"
+      },
+      "responses": {
+        "200": { "status": "success", "message": "Student updated successfully" },
+        "404": { "status": "error", "message": "Student record not found" }
+      }
+    },
+    {
+      "name": "Delete Student (CRUD - Delete)",
+      "endpoint": "POST /api/delete_student.php",
+      "description": "Delete a student record by ID",
+      "requestPayload": {
+        "id": "integer (required)"
+      },
+      "responses": {
+        "200": { "status": "success", "message": "Student record deleted successfully" },
+        "400": { "status": "error", "message": "Missing student ID" }
+      }
+    }
+  ]
+}
