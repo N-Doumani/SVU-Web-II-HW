@@ -1,0 +1,718 @@
+/* =====================================================================
+   Student Registration System — Theme & Responsive Layer
+   BWP501 · Section 5: Styling and Responsiveness (Bootstrap 5)
+   ---------------------------------------------------------------------
+   Load order:  bootstrap.min.css  →  bootstrap-icons  →  style.css
+   This file only *extends* Bootstrap 5. Layout is built with the
+   Bootstrap grid (container / row / col-*) inside the pages.
+
+   Contents
+     1.  Design tokens (colors, radius, shadows) + Bootstrap overrides
+     2.  Base & layout (sticky footer, typography)
+     3.  Navbar
+     4.  Page header
+     5.  Cards & sections
+     6.  Buttons
+     7.  Forms (inputs, validation, upload widget)
+     8.  Home page (hero, feature cards, steps)
+     9.  Auth pages (login / register)
+     10. Students table (+ stacked "card" layout on mobile)
+     11. Avatars
+     12. Pagination, empty state, toasts, modal
+     13. Footer
+     14. Responsive tweaks
+     15. Accessibility & motion
+   ===================================================================== */
+
+
+/* ---------------------------------------------------------------------
+   1. Design tokens
+   --------------------------------------------------------------------- */
+:root {
+  /* Brand */
+  --brand:        #4f46e5;
+  --brand-600:    #4338ca;
+  --brand-700:    #3730a3;
+  --brand-300:    #a5b4fc;
+  --brand-100:    #e0e7ff;
+  --brand-50:     #eef2ff;
+  --brand-rgb:    79, 70, 229;
+
+  /* Neutrals */
+  --ink:          #0f172a;
+  --ink-2:        #334155;
+  --muted:        #64748b;
+  --border:       #e2e8f0;
+  --surface:      #ffffff;
+  --surface-2:    #f8fafc;
+  --page-bg:      #f4f6fb;
+
+  /* Shape */
+  --radius-sm:    .5rem;
+  --radius:       .75rem;
+  --radius-lg:    1rem;
+  --shadow-sm:    0 1px 2px rgba(15, 23, 42, .06);
+  --shadow:       0 6px 18px rgba(15, 23, 42, .07);
+  --shadow-lg:    0 18px 40px rgba(15, 23, 42, .12);
+
+  /* Map our tokens onto Bootstrap 5.3 CSS variables */
+  --bs-primary:              var(--brand);
+  --bs-primary-rgb:          var(--brand-rgb);
+  --bs-primary-text-emphasis: var(--brand-700);
+  --bs-primary-bg-subtle:    var(--brand-50);
+  --bs-primary-border-subtle: var(--brand-100);
+  --bs-link-color:           var(--brand);
+  --bs-link-color-rgb:       var(--brand-rgb);
+  --bs-link-hover-color:     var(--brand-700);
+  --bs-link-hover-color-rgb: 55, 48, 163;
+  --bs-body-font-family:     "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --bs-body-color:           var(--ink);
+  --bs-body-bg:              var(--surface);   /* cards, inputs, modals stay white */
+  --bs-secondary-color:      var(--muted);
+  --bs-border-color:         var(--border);
+  --bs-border-radius:        var(--radius-sm);
+  --bs-focus-ring-color:     rgba(var(--brand-rgb), .25);
+}
+
+
+/* ---------------------------------------------------------------------
+   2. Base & layout
+   --------------------------------------------------------------------- */
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--page-bg);   /* the page itself is light grey */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;             /* footer always sits at the bottom */
+  font-size: .95rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-main { flex: 1 0 auto; padding-block: 2rem 3rem; }
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 { color: var(--ink); font-weight: 700; letter-spacing: -.01em; }
+
+.text-muted-soft { color: var(--muted) !important; }
+.min-w-0 { min-width: 0; }
+.fw-medium { font-weight: 500 !important; }
+
+::selection { background: var(--brand-100); color: var(--brand-700); }
+
+
+/* ---------------------------------------------------------------------
+   3. Navbar
+   --------------------------------------------------------------------- */
+.app-navbar {
+  background: rgba(255, 255, 255, .92);
+  backdrop-filter: saturate(180%) blur(8px);
+  border-bottom: 1px solid var(--border);
+  padding-block: .65rem;
+}
+
+.navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.navbar-brand:hover { color: var(--ink); }
+
+.brand-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: .65rem;
+  background: linear-gradient(135deg, var(--brand), #7c3aed);
+  color: #fff;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(var(--brand-rgb), .35);
+}
+
+.app-navbar .nav-link {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  color: var(--ink-2);
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  padding: .5rem .8rem !important;
+  transition: background-color .15s ease, color .15s ease;
+}
+.app-navbar .nav-link:hover { color: var(--brand); background: var(--brand-50); }
+.app-navbar .nav-link.active { color: var(--brand); background: var(--brand-50); font-weight: 600; }
+
+.navbar-toggler { border: 1px solid var(--border); padding: .35rem .55rem; }
+.navbar-toggler:focus { box-shadow: 0 0 0 .2rem var(--bs-focus-ring-color); }
+
+.btn-user {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-weight: 500;
+  padding: .3rem .7rem .3rem .3rem;
+  border-radius: 999px;
+}
+.btn-user:hover, .btn-user.show { background: var(--surface-2); border-color: var(--brand-100); }
+
+.dropdown-menu {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: .4rem;
+}
+.dropdown-item { border-radius: var(--radius-sm); padding: .5rem .75rem; display: flex; align-items: center; gap: .5rem; }
+
+
+/* ---------------------------------------------------------------------
+   4. Page header (title + subtitle + action buttons)
+   --------------------------------------------------------------------- */
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.page-title { font-size: clamp(1.4rem, 1.1rem + 1vw, 1.85rem); margin: 0; }
+.page-subtitle { color: var(--muted); margin: .25rem 0 0; }
+.page-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+.breadcrumb { font-size: .82rem; margin-bottom: .35rem; }
+.breadcrumb a { text-decoration: none; }
+
+
+/* ---------------------------------------------------------------------
+   5. Cards & sections
+   --------------------------------------------------------------------- */
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+.card-header, .card-footer {
+  background: var(--surface);
+  border-color: var(--border);
+  padding: 1rem 1.25rem;
+}
+.card-header:first-child { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+.card-footer:last-child  { border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+
+.section-title {
+  font-size: .78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.icon-badge {
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: .8rem;
+  background: var(--brand-50);
+  color: var(--brand);
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+
+/* ---------------------------------------------------------------------
+   6. Buttons
+   --------------------------------------------------------------------- */
+.btn { font-weight: 500; border-radius: var(--radius-sm); display: inline-flex; align-items: center; justify-content: center; gap: .45rem; }
+.btn-lg { padding: .7rem 1.25rem; font-size: 1rem; }
+
+.btn-primary {
+  --bs-btn-bg: var(--brand);
+  --bs-btn-border-color: var(--brand);
+  --bs-btn-hover-bg: var(--brand-600);
+  --bs-btn-hover-border-color: var(--brand-600);
+  --bs-btn-active-bg: var(--brand-700);
+  --bs-btn-active-border-color: var(--brand-700);
+  --bs-btn-disabled-bg: var(--brand);
+  --bs-btn-disabled-border-color: var(--brand);
+  --bs-btn-focus-shadow-rgb: var(--brand-rgb);
+  box-shadow: 0 2px 6px rgba(var(--brand-rgb), .25);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--brand);
+  --bs-btn-border-color: var(--brand-300);
+  --bs-btn-hover-bg: var(--brand);
+  --bs-btn-hover-border-color: var(--brand);
+  --bs-btn-active-bg: var(--brand-600);
+  --bs-btn-active-border-color: var(--brand-600);
+  --bs-btn-focus-shadow-rgb: var(--brand-rgb);
+}
+
+.btn-light {
+  --bs-btn-bg: var(--surface);
+  --bs-btn-border-color: var(--border);
+  --bs-btn-hover-bg: var(--surface-2);
+  --bs-btn-hover-border-color: #cbd5e1;
+  --bs-btn-color: var(--ink-2);
+}
+
+/* Small square icon buttons used in table rows */
+.btn-icon {
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  border-radius: var(--radius-sm);
+}
+.btn-soft-primary { background: var(--brand-50); color: var(--brand); border: 1px solid transparent; }
+.btn-soft-primary:hover { background: var(--brand); color: #fff; }
+.btn-soft-danger  { background: #fef2f2; color: #dc2626; border: 1px solid transparent; }
+.btn-soft-danger:hover { background: #dc2626; color: #fff; }
+
+
+/* ---------------------------------------------------------------------
+   7. Forms
+   --------------------------------------------------------------------- */
+.form-label { font-weight: 600; font-size: .85rem; color: var(--ink-2); margin-bottom: .4rem; }
+.form-label .req { color: #dc2626; margin-inline-start: .15rem; }
+
+.form-control, .form-select {
+  background-color: var(--surface);
+  border-color: var(--border);
+  padding: .6rem .85rem;
+  border-radius: var(--radius-sm);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.form-select { padding-right: 2.5rem; min-width: 10.5rem; }   /* room for the arrow */
+.form-control::placeholder { color: #94a3b8; }
+.form-control:focus, .form-select:focus {
+  border-color: var(--brand-300);
+  box-shadow: 0 0 0 .25rem var(--bs-focus-ring-color);
+}
+
+.input-group-text {
+  background: var(--surface-2);
+  border-color: var(--border);
+  color: var(--muted);
+}
+.input-group:focus-within .input-group-text { border-color: var(--brand-300); color: var(--brand); }
+
+/* Password show/hide button sits inside the input group */
+.btn-password-toggle {
+  border: 1px solid var(--border);
+  border-left: 0;
+  background: var(--surface);
+  color: var(--muted);
+}
+.btn-password-toggle:hover { color: var(--brand); background: var(--surface-2); }
+.input-group:focus-within .btn-password-toggle { border-color: var(--brand-300); }
+
+.form-check-input:checked { background-color: var(--brand); border-color: var(--brand); }
+.form-check-input:focus  { border-color: var(--brand-300); box-shadow: 0 0 0 .25rem var(--bs-focus-ring-color); }
+
+.form-text { color: var(--muted); font-size: .8rem; }
+.invalid-feedback { font-size: .8rem; }
+
+/* Sticky action bar at the bottom of long forms */
+.form-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5rem; }
+
+/* Profile picture upload widget */
+.avatar-upload { display: flex; flex-direction: column; align-items: center; gap: .9rem; text-align: center; }
+.avatar-preview {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--border), var(--shadow);
+  background: var(--surface-2);
+}
+.upload-drop {
+  width: 100%;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: var(--radius);
+  padding: 1rem;
+  background: var(--surface-2);
+  transition: border-color .15s ease, background-color .15s ease;
+}
+.upload-drop:hover { border-color: var(--brand-300); background: var(--brand-50); }
+.file-name { font-size: .8rem; color: var(--muted); word-break: break-all; }
+/* Visible focus ring for the visually-hidden file input */
+.avatar-upload input[type="file"]:focus-visible + label { box-shadow: 0 0 0 .25rem var(--bs-focus-ring-color); }
+
+
+/* ---------------------------------------------------------------------
+   8. Home page
+   --------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  padding: clamp(2rem, 1.2rem + 4vw, 4rem);
+  color: #fff;
+  background:
+    radial-gradient(600px 300px at 90% -10%, rgba(255, 255, 255, .18), transparent 60%),
+    radial-gradient(500px 260px at -10% 110%, rgba(124, 58, 237, .55), transparent 60%),
+    linear-gradient(135deg, var(--brand-700), var(--brand) 55%, #6366f1);
+  box-shadow: var(--shadow-lg);
+}
+.hero h1 { color: #fff; font-size: clamp(1.9rem, 1.3rem + 2.4vw, 3rem); line-height: 1.15; font-weight: 800; }
+.hero .lead { color: rgba(255, 255, 255, .85); font-size: clamp(1rem, .95rem + .3vw, 1.15rem); max-width: 34rem; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: rgba(255, 255, 255, .14);
+  border: 1px solid rgba(255, 255, 255, .25);
+  border-radius: 999px;
+  padding: .3rem .8rem;
+  font-size: .8rem; font-weight: 500;
+}
+.hero .btn-light { --bs-btn-color: var(--brand-700); --bs-btn-border-color: #fff; font-weight: 600; }
+.btn-ghost-light { color: #fff; border: 1px solid rgba(255, 255, 255, .45); }
+.btn-ghost-light:hover { color: #fff; background: rgba(255, 255, 255, .12); border-color: #fff; }
+
+/* Decorative "app preview" card inside the hero */
+.hero-preview {
+  background: rgba(255, 255, 255, .97);
+  color: var(--ink);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 48px rgba(15, 23, 42, .25);
+  padding: 1.1rem;
+  transform: rotate(-1.5deg);
+}
+.hero-preview .row-line {
+  display: flex; align-items: center; gap: .75rem;
+  padding: .55rem .4rem;
+  border-bottom: 1px solid var(--border);
+  font-size: .85rem;
+}
+.hero-preview .row-line:last-child { border-bottom: 0; }
+.skeleton { height: .5rem; border-radius: 999px; background: var(--border); }
+
+/* Feature / quick-action cards */
+.feature-card {
+  height: 100%;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--brand-100); }
+.feature-card .card-title { font-size: 1.02rem; margin-block: 1rem .35rem; }
+.feature-card .card-text { color: var(--muted); font-size: .88rem; }
+.feature-card .go { color: var(--brand); font-weight: 600; font-size: .85rem; display: inline-flex; align-items: center; gap: .3rem; text-decoration: none; }
+.feature-card:hover .go i { transform: translateX(3px); }
+.feature-card .go i { transition: transform .2s ease; }
+
+/* Numbered steps */
+.step-num {
+  display: inline-grid; place-items: center;
+  width: 2rem; height: 2rem;
+  border-radius: 50%;
+  background: var(--brand); color: #fff;
+  font-weight: 700; font-size: .9rem;
+  flex-shrink: 0;
+}
+
+
+/* ---------------------------------------------------------------------
+   9. Auth pages (login.html / register.html)
+   --------------------------------------------------------------------- */
+.auth-body { background: var(--surface); }
+
+.auth-aside {
+  position: relative;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3rem;
+  color: #fff;
+  background:
+    radial-gradient(500px 280px at 100% 0%, rgba(255, 255, 255, .15), transparent 60%),
+    radial-gradient(520px 320px at 0% 100%, rgba(124, 58, 237, .6), transparent 60%),
+    linear-gradient(150deg, var(--brand-700), var(--brand) 60%, #6366f1);
+}
+.auth-aside h2 { color: #fff; font-size: 2rem; font-weight: 800; line-height: 1.2; }
+.auth-aside p  { color: rgba(255, 255, 255, .85); }
+.auth-aside .navbar-brand, .auth-aside .navbar-brand:hover { color: #fff; }
+.auth-aside .brand-mark { background: rgba(255, 255, 255, .18); box-shadow: none; }
+.auth-points li { display: flex; gap: .75rem; align-items: flex-start; margin-bottom: 1rem; color: rgba(255, 255, 255, .92); }
+.auth-points i { font-size: 1.15rem; color: #c7d2fe; }
+
+.auth-panel { background: var(--page-bg); }
+.auth-card {
+  max-width: 440px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow);
+  padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+}
+.auth-card h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+.auth-divider { display: flex; align-items: center; gap: .75rem; color: var(--muted); font-size: .8rem; }
+.auth-divider::before, .auth-divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+/* Password strength meter (filled by teammates' JS if desired) */
+.strength-meter { display: flex; gap: .3rem; margin-top: .5rem; }
+.strength-meter span { flex: 1; height: 4px; border-radius: 999px; background: var(--border); }
+
+
+/* ---------------------------------------------------------------------
+   10. Students table
+   --------------------------------------------------------------------- */
+
+.card-table { overflow: hidden; }
+.table-modern { margin: 0; --bs-table-hover-bg: var(--surface-2); }
+.table.table-modern > thead > tr > th {
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+  padding: .8rem 1rem;
+}
+.table.table-modern > tbody > tr > td { padding: .85rem 1rem; vertical-align: middle; border-color: var(--border); }
+.table.table-modern > tbody > tr:last-child > td { border-bottom: 0; }
+.table-modern .student-name { font-weight: 600; color: var(--ink); }
+.table-modern .student-meta { font-size: .78rem; color: var(--muted); }
+.cell-truncate { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.results-meta { font-size: .85rem; color: var(--muted); }
+.search-chip {
+  display: inline-flex; align-items: center; gap: .35rem;
+  background: var(--brand-50); color: var(--brand-700);
+  border-radius: 999px; padding: .2rem .4rem .2rem .75rem;
+  font-size: .8rem; font-weight: 500;
+}
+.search-chip a { color: inherit; display: inline-grid; place-items: center; width: 1.3rem; height: 1.3rem; border-radius: 50%; text-decoration: none; }
+.search-chip a:hover { background: var(--brand-100); }
+
+/* --- Mobile: every table row becomes a stacked card ------------------
+   Usage: <table class="table table-modern table-stack"> and give every
+   <td> a data-label="Column name" attribute.                          */
+@media (max-width: 767.98px) {
+  .card-table { background: transparent; border: 0; box-shadow: none; overflow: visible; }
+  .card-table > .card-footer { background: transparent; border: 0; padding-inline: 0; }
+
+  .table-stack thead { display: none; }
+  .table-stack, .table-stack tbody, .table-stack tr, .table-stack td { display: block; width: 100%; }
+  .table-stack > :not(caption) > * > * { box-shadow: none; background: transparent; }
+
+  .table-stack tbody tr {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: .9rem 1rem;
+    margin-bottom: .85rem;
+  }
+  .table.table-stack > tbody > tr > td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    border: 0;
+    padding: .35rem 0;
+    text-align: right;
+  }
+  .table.table-stack > tbody > tr > td::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--muted);
+    text-align: left;
+  }
+  /* First cell (avatar + name) acts as the card header */
+  .table.table-stack > tbody > tr > td.cell-student {
+    justify-content: flex-start;
+    text-align: left;
+    padding-bottom: .75rem;
+    margin-bottom: .35rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .table.table-stack > tbody > tr > td.cell-student::before { display: none; }
+  /* Last cell (buttons) acts as the card footer */
+  .table.table-stack > tbody > tr > td.cell-actions {
+    justify-content: flex-end;
+    padding-top: .75rem;
+    margin-top: .35rem;
+    border-top: 1px solid var(--border);
+  }
+  .table.table-stack > tbody > tr > td.cell-actions::before { display: none; }
+  .table.table-stack > tbody > tr > td.cell-actions .btn { width: auto; padding-inline: .8rem; }
+  .cell-truncate { max-width: 60%; }
+}
+
+
+/* ---------------------------------------------------------------------
+   11. Avatars
+   --------------------------------------------------------------------- */
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 3px var(--border);
+}
+.avatar-sm { width: 1.9rem; height: 1.9rem; font-size: .75rem !important; }
+.avatar-lg { width: 3.5rem; height: 3.5rem; font-size: 1.15rem !important; }
+.avatar-initials {
+  display: inline-grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: .85rem;
+  text-transform: uppercase;
+  background: var(--brand-100);
+  color: var(--brand-700);
+}
+/* Tones picked from the student's name (see includes/helpers.php) */
+.tone-1 { background: #e0e7ff; color: #3730a3; }
+.tone-2 { background: #d1fae5; color: #065f46; }
+.tone-3 { background: #fef3c7; color: #92400e; }
+.tone-4 { background: #ffe4e6; color: #9f1239; }
+.tone-5 { background: #e0f2fe; color: #075985; }
+.tone-6 { background: #ede9fe; color: #5b21b6; }
+
+
+/* ---------------------------------------------------------------------
+   12. Pagination, empty state, toasts, modal
+   --------------------------------------------------------------------- */
+.pagination {
+  --bs-pagination-color: var(--ink-2);
+  --bs-pagination-border-color: var(--border);
+  --bs-pagination-hover-color: var(--brand-700);
+  --bs-pagination-hover-bg: var(--brand-50);
+  --bs-pagination-hover-border-color: var(--brand-100);
+  --bs-pagination-focus-color: var(--brand-700);
+  --bs-pagination-focus-box-shadow: 0 0 0 .25rem var(--bs-focus-ring-color);
+  --bs-pagination-active-bg: var(--brand);
+  --bs-pagination-active-border-color: var(--brand);
+  --bs-pagination-disabled-color: #94a3b8;
+  --bs-pagination-border-radius: var(--radius-sm);
+  gap: .3rem;
+  margin: 0;
+}
+.pagination .page-link { border-radius: var(--radius-sm) !important; min-width: 2.25rem; text-align: center; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: .3rem; }
+
+.empty-state { text-align: center; padding: 3.5rem 1.5rem; }
+.empty-state .icon-badge { width: 4rem; height: 4rem; font-size: 1.75rem; border-radius: 1.1rem; margin-bottom: 1rem; }
+.empty-state p { color: var(--muted); max-width: 26rem; margin-inline: auto; }
+
+.toast-container { z-index: 1090; }
+.app-toast {
+  background: var(--surface);
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-lg);
+  border-left: 4px solid var(--brand) !important;
+  min-width: 300px;
+}
+.app-toast .toast-body { display: flex; align-items: center; font-weight: 500; color: var(--ink); }
+.app-toast-success { border-left-color: #16a34a !important; } .app-toast-success .bi { color: #16a34a; }
+.app-toast-danger  { border-left-color: #dc2626 !important; } .app-toast-danger  .bi { color: #dc2626; }
+.app-toast-warning { border-left-color: #d97706 !important; } .app-toast-warning .bi { color: #d97706; }
+.app-toast-info    { border-left-color: var(--brand) !important; } .app-toast-info .bi { color: var(--brand); }
+
+.alert { border-radius: var(--radius); border-width: 1px; font-size: .9rem; }
+
+.modal-content { border: 0; border-radius: 1.1rem; box-shadow: var(--shadow-lg); }
+.modal-header, .modal-footer { border: 0; }
+.modal-icon-danger {
+  display: inline-grid; place-items: center;
+  width: 3.25rem; height: 3.25rem;
+  border-radius: 50%;
+  background: #fef2f2; color: #dc2626;
+  font-size: 1.4rem;
+}
+
+
+/* ---------------------------------------------------------------------
+   13. Footer
+   --------------------------------------------------------------------- */
+.app-footer {
+  flex-shrink: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding-block: 1.25rem;
+  font-size: .85rem;
+  color: var(--muted);
+}
+.app-footer a { color: var(--muted); text-decoration: none; }
+.app-footer a:hover { color: var(--brand); }
+
+
+/* ---------------------------------------------------------------------
+   14. Responsive tweaks (Bootstrap breakpoints: sm 576 · md 768 · lg 992 · xl 1200)
+   --------------------------------------------------------------------- */
+
+/* Tablet & down: navbar menu opens as a panel */
+@media (max-width: 991.98px) {
+  .app-navbar .navbar-collapse {
+    margin-top: .75rem;
+    padding-top: .75rem;
+    border-top: 1px solid var(--border);
+  }
+  .app-navbar .nav-actions .btn { width: 100%; }
+  .app-navbar .dropdown, .app-navbar .btn-user { width: 100%; justify-content: flex-start; }
+}
+
+/* Phones */
+@media (max-width: 575.98px) {
+  body { font-size: .925rem; }
+  .app-main { padding-block: 1.25rem 2rem; }
+
+  .page-header { align-items: stretch; }
+  .page-actions, .page-actions .btn { width: 100%; }
+
+  .hero { text-align: center; border-radius: 1rem; }
+  .hero .lead { margin-inline: auto; }
+  .hero .hero-cta { flex-direction: column; }
+  .hero .hero-cta .btn { width: 100%; }
+
+  .form-actions { flex-direction: column-reverse; }
+  .form-actions .btn { width: 100%; }
+
+  .card-body.p-4 { padding: 1.15rem !important; }
+
+  .toast-container { left: 0; right: 0; padding: .75rem !important; }
+  .app-toast { width: 100%; min-width: 0; }
+
+  .modal-footer .btn { flex: 1; }
+}
+
+
+/* ---------------------------------------------------------------------
+   15. Accessibility & motion
+   --------------------------------------------------------------------- */
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.btn:focus-visible, .form-control:focus-visible, .form-select:focus-visible, .page-link:focus-visible { outline: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+/* Team Section Hover & Scaling Animation */
+.team-card {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.team-card:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 12px 24px rgba(79, 70, 229, 0.15) !important;
+}
+
+.team-card .team-role-detail {
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.team-card:hover .team-role-detail {
+    opacity: 1;
+}
