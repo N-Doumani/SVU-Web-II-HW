@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // 1. التحقق من تطابق كلمتي المرور في صفحة إنشاء الحساب
+    // 1. Validate password match on registration form
     const passwordInput = document.querySelector('#password');
     const confirmInput  = document.querySelector('#confirm_password');
     const registerForm  = document.querySelector('#registerForm');
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // 2. التحقق الفوري عبر AJAX من البريد الإلكتروني في صفحتي إضافة وتعديل طالب
+// 2. Real-time AJAX email validation for student forms
     const emailInput  = document.querySelector('input[name="email"]');
     const studentForm = document.querySelector('form[enctype="multipart/form-data"]');
 

@@ -89,8 +89,8 @@ session_start();
         <section class="hero mb-5">
             <div class="row align-items-center g-5">
                 <div class="col-12 col-lg-7">
-                    <!-- شارة الجامعة والمادة -->
-                    <div class="d-flex flex-wrap gap-2 mb-3">
+                <!-- University and Course Badge -->
+                <div class="d-flex flex-wrap gap-2 mb-3">
                         <span class="hero-badge"><i class="bi bi-mortarboard-fill"></i> Syrian Virtual University (SVU)</span>
                         <span class="badge bg-white text-primary fw-semibold px-3 py-2 rounded-pill d-inline-flex align-items-center">
                             BWP501 · Web Programming II
@@ -99,7 +99,7 @@ session_start();
 
                     <h1 class="mb-3">Welcome! Manage every student record in one place.</h1>
                     
-                    <!-- اسم الدكتور المباشر -->
+                    <!-- Course Instructor Info -->
                     <p class="lead mb-4">
                         <i class="bi bi-person-check-fill text-warning me-1"></i> Course Instructor: <strong>Dr. Bassel Al-Khatib</strong>
                     </p>

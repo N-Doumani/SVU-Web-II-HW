@@ -2,7 +2,7 @@
 session_start();
 require_once 'db.php';
 
-// حماية الصفحة: إعادة التوجيه لصفحة الدخول إذا لم يسبق تسجيل الدخول
+// Protect page: Redirect to login if user is not authenticated
 if (empty($_SESSION['user_id'])) {
     header('Location: login.php?msg=login_required');
     exit();
@@ -11,7 +11,7 @@ if (empty($_SESSION['user_id'])) {
 $errors  = [];
 $student = [];
 
-// معالجة إرسال النموذج
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name    = trim($_POST['name'] ?? '');
     $email   = trim($_POST['email'] ?? '');
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $student = $_POST;
 
-    // 1. التحقق من صحة البيانات
+// 1. Data validation
     if ($name === '') {
         $errors['name'] = 'Please enter the student name.';
     }
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['address'] = 'Please enter an address.';
     }
 
-    // 2. معالجة رفع الصورة الشخصية (اختياري)
+// 2. Handle optional profile picture upload
     $profile_picture = '';
     if (!empty($_FILES['profile_picture']['name'])) {
         if ($_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // 3. الإدخال في قاعدة البيانات إذا لم توجد أخطاء
+// 3. Insert into database if no validation errors
     if (empty($errors)) {
         $stmt = $pdo->prepare("INSERT INTO students (name, email, phone, address, profile_picture) VALUES (?, ?, ?, ?, ?)");
         $stmt->execute([$name, $email, $phone, $address, $profile_picture]);

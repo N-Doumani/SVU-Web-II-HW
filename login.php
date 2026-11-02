@@ -2,22 +2,22 @@
 session_start();
 require_once 'db.php';
 
-// استقبال رابط إعادة التوجيه إن وجد، أو جعله افتراضياً إلى view_students.php
+// Retrieve redirect URL if present, or default to view_students.php
 $redirect = $_GET['redirect'] ?? $_POST['redirect'] ?? 'view_students.php';
 
-// تأمين الرابط وحصره بصفحات المشروع المسموحة فقط لتجنب الثغرات الأمنية
+// Restrict redirect URL to allowed pages for security
 $allowed_redirects = ['index.php', 'view_students.php', 'add_student.php', 'update_student.php'];
 if (!in_array($redirect, $allowed_redirects)) {
     $redirect = 'view_students.php';
 }
 
-// إذا كان المستخدم مسجلاً دخوله بالفعل، نقله مباشرة إلى الصفحة المستهدفة
+// If the user is already logged in, redirect them to the target page
 if (isset($_SESSION['user_id'])) {
     header("Location: $redirect");
     exit();
 }
 
-// معالجة طلب تسجيل الدخول عند الضغط على الزر
+// Handle login request when the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login    = trim($_POST['login'] ?? '');
     $password = $_POST['password'] ?? '';
@@ -96,8 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div id="pageAlert" aria-live="polite"></div>
 
                 <form id="loginForm" action="login.php?redirect=<?php echo urlencode($redirect); ?>" method="post" class="needs-validation" novalidate data-loading>
-                    <!-- حقل مخفي للحفاظ على مسار العودة عند إرسال الـ POST -->
-                    <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect); ?>">
+                <!-- Hidden input to maintain redirect path -->
+                <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect); ?>">
 
                     <div class="field mb-3">
                         <label for="login" class="form-label">Username or email<span class="req">*</span></label>

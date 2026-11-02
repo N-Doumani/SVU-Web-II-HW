@@ -2,7 +2,7 @@
 session_start();
 require_once 'db.php';
 
-// حماية الصفحة: إعادة التوجيه لصفحة الدخول إذا لم يسبق تسجيل الدخول
+// Protect page: Redirect if unauthenticated
 if (empty($_SESSION['user_id'])) {
     header('Location: login.php?msg=login_required');
     exit();
@@ -16,7 +16,7 @@ if ($id <= 0) {
     exit();
 }
 
-// جلب بيانات الطالب الحالية من قاعدة البيانات
+// Fetch the current student data from the database
 $stmt = $pdo->prepare("SELECT * FROM students WHERE id = ?");
 $stmt->execute([$id]);
 $existingStudent = $stmt->fetch();
@@ -28,7 +28,7 @@ if (!$existingStudent) {
 
 $student = $existingStudent;
 
-// معالجة التحديث عند إرسال النموذج
+// Handle update when the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name    = trim($_POST['name'] ?? '');
     $email   = trim($_POST['email'] ?? '');
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $student = array_merge($existingStudent, $_POST);
 
-    // 1. التحقق من الحقول
+    // 1. Data validation
     if ($name === '') {
         $errors['name'] = 'Please enter the student name.';
     }
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['address'] = 'Please enter an address.';
     }
 
-    // 2. معالجة رفع صورة جديدة (اختياري)
+    // 2. Handle optional profile picture upload
     $profile_picture = $existingStudent['profile_picture'];
     if (!empty($_FILES['profile_picture']['name'])) {
         if ($_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
@@ -76,8 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $targetPath  = 'uploads/' . $newFilename;
                 
                 if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], __DIR__ . '/' . $targetPath)) {
-                    // حذف الصورة القديمة إن وجدت
-                    if (!empty($existingStudent['profile_picture']) && file_exists(__DIR__ . '/' . $existingStudent['profile_picture'])) {
+                // Delete previous image file if present
+                if (!empty($existingStudent['profile_picture']) && file_exists(__DIR__ . '/' . $existingStudent['profile_picture'])) {
                         unlink(__DIR__ . '/' . $existingStudent['profile_picture']);
                     }
                     $profile_picture = $targetPath;
@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // 3. تحديث السجل في قاعدة البيانات
+    // 3. Update the record in the database
     if (empty($errors)) {
         $updateStmt = $pdo->prepare("UPDATE students SET name = ?, email = ?, phone = ?, address = ?, profile_picture = ? WHERE id = ?");
         $updateStmt->execute([$name, $email, $phone, $address, $profile_picture, $id]);

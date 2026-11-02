@@ -2,13 +2,13 @@
 session_start();
 require_once 'db.php';
 
-// 1. حماية الصفحة وإعادة التوجيه إذا لم يتم تسجيل الدخول
+// 1. Protect page and redirect if not logged in
 if (empty($_SESSION['user_id'])) {
     header('Location: login.php?msg=login_required');
     exit();
 }
 
-// 2. إعداد البحث والتصفية والترقيم من قاعدة البيانات
+// 2. Setup search, filtering, and pagination from the database
 $search  = trim($_GET['search'] ?? '');
 $sort    = $_GET['sort'] ?? 'newest';
 $page    = max(1, (int) ($_GET['page'] ?? 1));
@@ -44,7 +44,7 @@ if (!empty($search)) {
     $students = $stmt->fetchAll();
 }
 
-// 3. إعدادات الواجهة والصفحة
+// 3. Page and template settings
 $pageTitle  = 'View Students';
 $activePage = 'view';
 
