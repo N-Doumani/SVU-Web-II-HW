@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#4f46e5">
-    <title>Create account · Student Registration System</title>
+    <title>SVU · Student Registration</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,9 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Left: brand panel (large screens only) -->
         <aside class="col-lg-6 d-none d-lg-flex auth-aside">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="index.php">
                 <span class="brand-mark"><i class="bi bi-mortarboard-fill"></i></span>
-                Student Registration
+                SVU · Student Registration
             </a>
             <div>
                 <h2 class="mb-3">Create your account.</h2>
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="col-12 col-lg-6 auth-panel d-flex align-items-center justify-content-center p-3 p-sm-4 p-lg-5">
             <div class="auth-card w-100">
 
-                <a class="navbar-brand d-lg-none mb-4" href="index.html">
+                <a class="navbar-brand d-lg-none mb-4" href="index.php">
                     <span class="brand-mark"><i class="bi bi-mortarboard-fill"></i></span>
                     Student Registration
                 </a>
@@ -141,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     Already have an account? <a href="login.php" class="fw-semibold">Sign in</a>
                 </p>
                 <p class="text-center mt-3 mb-0 small">
-                    <a href="index.html" class="text-muted-soft text-decoration-none"><i class="bi bi-arrow-left"></i> Back to home</a>
+                    <a href="index.php" class="text-muted-soft text-decoration-none"><i class="bi bi-arrow-left"></i> Back to home</a>
                 </p>
             </div>
         </div>

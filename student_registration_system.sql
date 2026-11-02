@@ -1,5 +1,4 @@
-CREATE DATABASE IF NOT EXISTS student_registration_system;
-USE student_registration_system;
+
 
 -- Structure for table `users`
 DROP TABLE IF EXISTS users;
