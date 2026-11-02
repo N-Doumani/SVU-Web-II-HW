@@ -55,7 +55,7 @@ $navAria  = fn (string $key): string => $key === $activePage ? ' aria-current="p
 <!-- ===================== Navbar ===================== -->
 <nav class="navbar navbar-expand-lg app-navbar sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="index.php">
             <span class="brand-mark"><i class="bi bi-mortarboard-fill"></i></span>
             <span class="d-none d-sm-inline">SVU · Student Registration</span>
             <span class="d-sm-none">SVU SRS</span>
@@ -69,7 +69,7 @@ $navAria  = fn (string $key): string => $key === $activePage ? ' aria-current="p
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav me-auto ms-lg-4 gap-lg-1">
                 <li class="nav-item">
-                    <a class="<?= $navClass('home') ?>"<?= $navAria('home') ?> href="index.html"><i class="bi bi-house"></i> Home</a>
+                    <a class="<?= $navClass('home') ?>"<?= $navAria('home') ?> href="index.php"><i class="bi bi-house"></i> Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="<?= $navClass('add') ?>"<?= $navAria('add') ?> href="add_student.php"><i class="bi bi-person-plus"></i> Add Student</a>

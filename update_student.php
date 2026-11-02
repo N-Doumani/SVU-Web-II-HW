@@ -8,44 +8,103 @@ if (empty($_SESSION['user_id'])) {
     exit();
 }
 
-/* =====================================================================
- * update_student.php — Edit Student page
- * ---------------------------------------------------------------------
- * LAYOUT & STYLING: Section 5 (done — please don't change the markup)
- *
- * BACKEND (Section 3) — write your PHP in this block:
- *   1. session_start(); + auth check (same as add_student.php)
- *   2. GET  ?id=5  → SELECT the student into $student
- *                    not found → header('Location: view_students.php?msg=not_found'); exit;
- *   3. POST        → validate → optional new picture (move_uploaded_file) → UPDATE
- *                    success  → header('Location: view_students.php?msg=updated'); exit;
- *                    errors   → $errors['field'] = 'message'; $student = $_POST + old picture;
- * ===================================================================== */
+$errors = [];
+$id = isset($_GET['id']) ? (int) $_GET['id'] : (isset($_POST['id']) ? (int) $_POST['id'] : 0);
 
-// ---- BACKEND CODE GOES HERE ----
-
-
-// ---- DEMO DATA (Section 5) — delete this block once the SELECT query is ready ----
-if (!isset($student)) {
-    $student = [
-        'id'              => 42,
-        'name'            => 'Ahmad Khalil',
-        'email'           => 'ahmad.khalil@example.com',
-        'phone'           => '0933123456',
-        'address'         => 'Damascus, Mazzeh, Building 12',
-        'profile_picture' => '',
-        'created_at'      => '2026-10-02 10:15:00',
-    ];
+if ($id <= 0) {
+    header('Location: view_students.php?msg=not_found');
+    exit();
 }
-// ---- END DEMO DATA ----
 
+// جلب بيانات الطالب الحالية من قاعدة البيانات
+$stmt = $pdo->prepare("SELECT * FROM students WHERE id = ?");
+$stmt->execute([$id]);
+$existingStudent = $stmt->fetch();
+
+if (!$existingStudent) {
+    header('Location: view_students.php?msg=not_found');
+    exit();
+}
+
+$student = $existingStudent;
+
+// معالجة التحديث عند إرسال النموذج
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name    = trim($_POST['name'] ?? '');
+    $email   = trim($_POST['email'] ?? '');
+    $phone   = trim($_POST['phone'] ?? '');
+    $address = trim($_POST['address'] ?? '');
+
+    $student = array_merge($existingStudent, $_POST);
+
+    // 1. التحقق من الحقول
+    if ($name === '') {
+        $errors['name'] = 'Please enter the student name.';
+    }
+    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = 'Please enter a valid email address.';
+    } else {
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM students WHERE email = ? AND id != ?");
+        $stmt->execute([$email, $id]);
+        if ($stmt->fetchColumn() > 0) {
+            $errors['email'] = 'This email is already used by another student.';
+        }
+    }
+    if ($phone === '') {
+        $errors['phone'] = 'Please enter a phone number.';
+    }
+    if ($address === '') {
+        $errors['address'] = 'Please enter an address.';
+    }
+
+    // 2. معالجة رفع صورة جديدة (اختياري)
+    $profile_picture = $existingStudent['profile_picture'];
+    if (!empty($_FILES['profile_picture']['name'])) {
+        if ($_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+            $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            $ext = strtolower(pathinfo($_FILES['profile_picture']['name'], PATHINFO_EXTENSION));
+            
+            if (!in_array($ext, $allowed)) {
+                $errors['profile_picture'] = 'Only JPG, PNG, GIF, and WEBP images are allowed.';
+            } elseif ($_FILES['profile_picture']['size'] > 2 * 1024 * 1024) {
+                $errors['profile_picture'] = 'Image size must not exceed 2MB.';
+            } else {
+                if (!is_dir(__DIR__ . '/uploads')) {
+                    mkdir(__DIR__ . '/uploads', 0755, true);
+                }
+                $newFilename = uniqid('stu_', true) . '.' . $ext;
+                $targetPath  = 'uploads/' . $newFilename;
+                
+                if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], __DIR__ . '/' . $targetPath)) {
+                    // حذف الصورة القديمة إن وجدت
+                    if (!empty($existingStudent['profile_picture']) && file_exists(__DIR__ . '/' . $existingStudent['profile_picture'])) {
+                        unlink(__DIR__ . '/' . $existingStudent['profile_picture']);
+                    }
+                    $profile_picture = $targetPath;
+                } else {
+                    $errors['profile_picture'] = 'Failed to save the uploaded image.';
+                }
+            }
+        } else {
+            $errors['profile_picture'] = 'Error uploading file.';
+        }
+    }
+
+    // 3. تحديث السجل في قاعدة البيانات
+    if (empty($errors)) {
+        $updateStmt = $pdo->prepare("UPDATE students SET name = ?, email = ?, phone = ?, address = ?, profile_picture = ? WHERE id = ?");
+        $updateStmt->execute([$name, $email, $phone, $address, $profile_picture, $id]);
+        header('Location: view_students.php?msg=updated');
+        exit();
+    }
+}
 
 // ---- Template settings (Section 5) ----
 $pageTitle   = 'Edit Student';
 $activePage  = 'view';
 $formMode    = 'edit';
 $errors      = $errors ?? [];
-$pageScripts = $pageScripts ?? [];
+$pageScripts = ['assets/js/main.js'];
 
 require __DIR__ . '/includes/header.php';
 ?>

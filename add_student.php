@@ -8,22 +8,75 @@ if (empty($_SESSION['user_id'])) {
     exit();
 }
 
-/* =====================================================================
- * add_student.php — Add Student page
- * ---------------------------------------------------------------------
- * LAYOUT & STYLING: Section 5 (done — please don't change the markup)
- *
- * BACKEND (Sections 3 & 4) — write your PHP in this block:
- *   1. Auth check:   session_start();
- *                    if (empty($_SESSION['user_id'])) { header('Location: login.html?msg=login_required'); exit; }
- *   2. On POST:      validate → move_uploaded_file() → INSERT with PDO prepared statement
- *   3. Success:      header('Location: view_students.php?msg=added'); exit;
- *   4. Errors:       $errors['email'] = 'This email is already used';  and  $student = $_POST;
- *                    (the form will show the messages and keep what the user typed)
- * ===================================================================== */
+$errors  = [];
+$student = [];
 
-// ---- BACKEND CODE GOES HERE ----
+// معالجة إرسال النموذج
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name    = trim($_POST['name'] ?? '');
+    $email   = trim($_POST['email'] ?? '');
+    $phone   = trim($_POST['phone'] ?? '');
+    $address = trim($_POST['address'] ?? '');
+    
+    $student = $_POST;
 
+    // 1. التحقق من صحة البيانات
+    if ($name === '') {
+        $errors['name'] = 'Please enter the student name.';
+    }
+    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = 'Please enter a valid email address.';
+    } else {
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM students WHERE email = ?");
+        $stmt->execute([$email]);
+        if ($stmt->fetchColumn() > 0) {
+            $errors['email'] = 'This email is already used.';
+        }
+    }
+    if ($phone === '') {
+        $errors['phone'] = 'Please enter a phone number.';
+    }
+    if ($address === '') {
+        $errors['address'] = 'Please enter an address.';
+    }
+
+    // 2. معالجة رفع الصورة الشخصية (اختياري)
+    $profile_picture = '';
+    if (!empty($_FILES['profile_picture']['name'])) {
+        if ($_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+            $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            $ext = strtolower(pathinfo($_FILES['profile_picture']['name'], PATHINFO_EXTENSION));
+            
+            if (!in_array($ext, $allowed)) {
+                $errors['profile_picture'] = 'Only JPG, PNG, GIF, and WEBP images are allowed.';
+            } elseif ($_FILES['profile_picture']['size'] > 2 * 1024 * 1024) {
+                $errors['profile_picture'] = 'Image size must not exceed 2MB.';
+            } else {
+                if (!is_dir(__DIR__ . '/uploads')) {
+                    mkdir(__DIR__ . '/uploads', 0755, true);
+                }
+                $newFilename = uniqid('stu_', true) . '.' . $ext;
+                $targetPath  = 'uploads/' . $newFilename;
+                
+                if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], __DIR__ . '/' . $targetPath)) {
+                    $profile_picture = $targetPath;
+                } else {
+                    $errors['profile_picture'] = 'Failed to save the uploaded image.';
+                }
+            }
+        } else {
+            $errors['profile_picture'] = 'Error uploading file.';
+        }
+    }
+
+    // 3. الإدخال في قاعدة البيانات إذا لم توجد أخطاء
+    if (empty($errors)) {
+        $stmt = $pdo->prepare("INSERT INTO students (name, email, phone, address, profile_picture) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$name, $email, $phone, $address, $profile_picture]);
+        header('Location: view_students.php?msg=added');
+        exit();
+    }
+}
 
 // ---- Template settings (Section 5) ----
 $pageTitle   = 'Add Student';
@@ -31,7 +84,7 @@ $activePage  = 'add';
 $formMode    = 'add';
 $student     = $student ?? [];
 $errors      = $errors  ?? [];
-$pageScripts = $pageScripts ?? [];   // e.g. ['assets/js/validation.js'] for AJAX validation (Section 4)
+$pageScripts = ['assets/js/main.js'];
 
 require __DIR__ . '/includes/header.php';
 ?>

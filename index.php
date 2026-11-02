@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,10 +47,10 @@
 
 <a class="visually-hidden-focusable position-absolute top-0 start-0 m-2 btn btn-primary" href="#main">Skip to content</a>
 
-<!-- ===================== Navbar (same markup as includes/header.php) ===================== -->
+<!-- ===================== Navbar ===================== -->
 <nav class="navbar navbar-expand-lg app-navbar sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="index.php">
             <span class="brand-mark"><i class="bi bi-mortarboard-fill"></i></span>
             <span class="d-none d-sm-inline">SVU · Student Registration</span>
             <span class="d-sm-none">SVU SRS</span>
@@ -60,13 +63,20 @@
 
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav me-auto ms-lg-4 gap-lg-1">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html"><i class="bi bi-house"></i> Home</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.php"><i class="bi bi-house"></i> Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="add_student.php"><i class="bi bi-person-plus"></i> Add Student</a></li>
                 <li class="nav-item"><a class="nav-link" href="view_students.php"><i class="bi bi-people"></i> View Students</a></li>
             </ul>
             <div class="nav-actions d-flex flex-column flex-lg-row gap-2 mt-3 mt-lg-0">
-                <a class="btn btn-outline-primary" href="login.php"><i class="bi bi-box-arrow-in-right"></i> Sign in</a>
-                <a class="btn btn-primary" href="register.php">Create account</a>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <span class="navbar-text me-3 d-none d-lg-block">
+                        Welcome, <strong><?php echo htmlspecialchars($_SESSION['username'] ?? 'User'); ?></strong>
+                    </span>
+                    <a class="btn btn-outline-danger" href="logout.php"><i class="bi bi-box-arrow-right"></i> Sign out</a>
+                <?php else: ?>
+                    <a class="btn btn-outline-primary" href="login.php?redirect=index.php"><i class="bi bi-box-arrow-in-right"></i> Sign in</a>
+                    <a class="btn btn-primary" href="register.php">Create account</a>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -95,8 +105,13 @@
                     </p>
 
                     <div class="hero-cta d-flex flex-wrap gap-2">
-                        <a href="register.php" class="btn btn-light btn-lg"><i class="bi bi-person-plus-fill"></i> Get started</a>
-                        <a href="login.php" class="btn btn-ghost-light btn-lg"><i class="bi bi-box-arrow-in-right"></i> Sign in</a>
+                        <?php if (isset($_SESSION['user_id'])): ?>
+                            <a href="view_students.php" class="btn btn-primary btn-lg"><i class="bi bi-people-fill"></i> View all students</a>
+                            <a href="add_student.php" class="btn btn-light btn-lg"><i class="bi bi-person-plus-fill"></i> Add student</a>
+                        <?php else: ?>
+                            <a href="register.php" class="btn btn-light btn-lg"><i class="bi bi-person-plus-fill"></i> Get started</a>
+                            <a href="login.php?redirect=index.php" class="btn btn-ghost-light btn-lg"><i class="bi bi-box-arrow-in-right"></i> Sign in</a>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -313,7 +328,7 @@
     </div>
 </main>
 
-<!-- ===================== Footer (same markup as includes/footer.php) ===================== -->
+<!-- ===================== Footer ===================== -->
 <footer class="app-footer py-4 border-top">
     <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 text-center text-md-start">
         <div>
@@ -321,7 +336,7 @@
             <small class="text-muted-soft">BWP501 · Web Programming II | Supervised by: <strong>Dr. Bassel Al-Khatib</strong></small>
         </div>
         <nav class="d-flex gap-3" aria-label="Footer">
-            <a href="index.html">Home</a>
+            <a href="index.php">Home</a>
             <a href="view_students.php">Students</a>
             <a href="add_student.php">Add Student</a>
         </nav>
@@ -330,7 +345,6 @@
 
 <div id="toastArea" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
-<!-- Teammates: add your own scripts BELOW this line -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/ui.js"></script>
 </body>

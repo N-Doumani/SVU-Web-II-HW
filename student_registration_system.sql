@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS student_db;
-USE student_db;
+CREATE DATABASE IF NOT EXISTS student_registration_system;
+USE student_registration_system;
 
 -- Structure for table `users`
 DROP TABLE IF EXISTS users;
@@ -17,7 +17,7 @@ CREATE TABLE students (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    phone VARCHAR(20) NOT NULL,
+    phone VARCHAR(15) NOT NULL,
     address TEXT NOT NULL,
     profile_picture VARCHAR(255) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

@@ -20,7 +20,7 @@ $pageScripts = $pageScripts ?? [];
             <small class="text-muted-soft">BWP501 · Web Programming II | Supervised by: <strong>Dr. Bassel Al-Khatib</strong></small>
         </div>
         <nav class="d-flex gap-3" aria-label="Footer">
-            <a href="index.html">Home</a>
+            <a href="index.php">Home</a>
             <a href="view_students.php">Students</a>
             <a href="add_student.php">Add Student</a>
         </nav>

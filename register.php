@@ -81,7 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h1>Create account</h1>
                 <p class="text-muted-soft mb-4">It only takes a minute.</p>
 
-                <!-- Error messages appear here (register.html?msg=exists) -->
                 <div id="pageAlert" aria-live="polite"></div>
 
                 <form id="registerForm" action="register.php" method="post" class="needs-validation" novalidate data-loading>
@@ -153,7 +152,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/ui.js"></script>
-<!-- Teammates: add your own scripts BELOW this line
-     (password-match check → UI.setFieldError('#confirm_password', 'Passwords do not match')) -->
+<script src="assets/js/main.js"></script>
 </body>
 </html>

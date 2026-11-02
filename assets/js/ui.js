@@ -177,7 +177,7 @@
 
   function highlightActiveNav() {
     if ($('.app-navbar .nav-link.active')) { return; }      // PHP header already set it
-    const current = window.location.pathname.split('/').pop() || 'index.html';
+    const current = window.location.pathname.split('/').pop() || 'index.php';
     $$('.app-navbar .nav-link').forEach((link) => {
       if (link.getAttribute('href') === current) {
         link.classList.add('active');

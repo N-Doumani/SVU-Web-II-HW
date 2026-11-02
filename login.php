@@ -2,9 +2,18 @@
 session_start();
 require_once 'db.php';
 
-// إذا كان المستخدم مسجلاً دخوله بالفعل، نقله مباشرة للوحة التحكم
+// استقبال رابط إعادة التوجيه إن وجد، أو جعله افتراضياً إلى view_students.php
+$redirect = $_GET['redirect'] ?? $_POST['redirect'] ?? 'view_students.php';
+
+// تأمين الرابط وحصره بصفحات المشروع المسموحة فقط لتجنب الثغرات الأمنية
+$allowed_redirects = ['index.php', 'view_students.php', 'add_student.php', 'update_student.php'];
+if (!in_array($redirect, $allowed_redirects)) {
+    $redirect = 'view_students.php';
+}
+
+// إذا كان المستخدم مسجلاً دخوله بالفعل، نقله مباشرة إلى الصفحة المستهدفة
 if (isset($_SESSION['user_id'])) {
-    header("Location: view_students.php");
+    header("Location: $redirect");
     exit();
 }
 
@@ -21,14 +30,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id']  = $user['id'];
             $_SESSION['username'] = $user['username'];
-            header("Location: view_students.php");
+            header("Location: $redirect");
             exit();
         } else {
-            header("Location: login.php?msg=invalid");
+            header("Location: login.php?msg=invalid&redirect=" . urlencode($redirect));
             exit();
         }
     } else {
-        header("Location: login.php?msg=invalid");
+        header("Location: login.php?msg=invalid&redirect=" . urlencode($redirect));
         exit();
     }
 }
@@ -56,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Left: brand panel -->
         <aside class="col-lg-6 d-none d-lg-flex auth-aside">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="index.php">
                 <span class="brand-mark"><i class="bi bi-mortarboard-fill"></i></span>
                 Student Registration
             </a>
@@ -76,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="col-12 col-lg-6 auth-panel d-flex align-items-center justify-content-center p-3 p-sm-4 p-lg-5">
             <div class="auth-card w-100">
 
-                <a class="navbar-brand d-lg-none mb-4" href="index.html">
+                <a class="navbar-brand d-lg-none mb-4" href="index.php">
                     <span class="brand-mark"><i class="bi bi-mortarboard-fill"></i></span>
                     Student Registration
                 </a>
@@ -86,7 +95,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div id="pageAlert" aria-live="polite"></div>
 
-                <form id="loginForm" action="login.php" method="post" class="needs-validation" novalidate data-loading>
+                <form id="loginForm" action="login.php?redirect=<?php echo urlencode($redirect); ?>" method="post" class="needs-validation" novalidate data-loading>
+                    <!-- حقل مخفي للحفاظ على مسار العودة عند إرسال الـ POST -->
+                    <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect); ?>">
+
                     <div class="field mb-3">
                         <label for="login" class="form-label">Username or email<span class="req">*</span></label>
                         <div class="input-group has-validation">
@@ -122,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     Don’t have an account? <a href="register.php" class="fw-semibold">Create one</a>
                 </p>
                 <p class="text-center mt-3 mb-0 small">
-                    <a href="index.html" class="text-muted-soft text-decoration-none"><i class="bi bi-arrow-left"></i> Back to home</a>
+                    <a href="index.php" class="text-muted-soft text-decoration-none"><i class="bi bi-arrow-left"></i> Back to home</a>
                 </p>
             </div>
         </div>
