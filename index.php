@@ -260,8 +260,8 @@ session_start();
                             <div class="d-flex align-items-center gap-3 mb-3">
                                 <span class="avatar avatar-sm avatar-initials tone-2 flex-shrink-0">M2</span>
                                 <div class="min-w-0">
-                                    <h3 class="h6 mb-0 fw-bold text-truncate">Roua alshekh asaad</h3>
-                                    <span class="badge bg-white text-secondary border mt-1">ID: roua_317850</span>
+                                    <h3 class="h6 mb-0 fw-bold text-truncate">Ziena foutina</h3>
+                                    <span class="badge bg-white text-secondary border mt-1">ID: ziena_187633</span>
                                 </div>
                             </div>
                             <div class="pt-2 border-top">
@@ -277,8 +277,8 @@ session_start();
                             <div class="d-flex align-items-center gap-3 mb-3">
                                 <span class="avatar avatar-sm avatar-initials tone-3 flex-shrink-0">M3</span>
                                 <div class="min-w-0">
-                                    <h3 class="h6 mb-0 fw-bold text-truncate">Ziena foutina</h3>
-                                    <span class="badge bg-white text-secondary border mt-1">ID: ziena_187633</span>
+                                    <h3 class="h6 mb-0 fw-bold text-truncate">Roua alshekh asaad</h3>
+                                    <span class="badge bg-white text-secondary border mt-1">ID: roua_317850</span>
                                 </div>
                             </div>
                             <div class="pt-2 border-top">
