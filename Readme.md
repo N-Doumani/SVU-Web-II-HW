@@ -149,7 +149,7 @@ student_registration_system/
 | **M1** | **Nour aldeen aldoumani** | `nour_aldeen_aldoumani_290139` | **Req 1: Database & Authentication**<br>MySQL Database Schema, PDO Setup, Password Hashing (`password_hash`), and Session Protection. |
 | **M2** | **Ziena Foutina** | `ziena_187633` | **Req 2: Responsive Frontend & UI**<br>HTML5/CSS3 Layout, Design Tokens System, Bootstrap 5 Grid, and Mobile Card Stack Layout. |
 | **M3** | **Roua Alshekh Asaad** | `roua_317850` | **Req 3: AJAX & Client-Side Validation**<br>Real-time Email Check (`check_email.php`) via Fetch API, Password Matching, and Form Feedback. |
-| **M4** | **Ahmed Nedal Alashoush** | `ahed_338484_c6` | **Req 4: Student CRUD & File Uploads**<br>Student Records CRUD (Add, Edit, Delete) and Image Handling (`move_uploaded_file` / `unlink`). |
+| **M4** | **Ahed Nedal Alashoush** | `ahed_338484_c6` | **Req 4: Student CRUD & File Uploads**<br>Student Records CRUD (Add, Edit, Delete) and Image Handling (`move_uploaded_file` / `unlink`). |
 | **M5** | **Taim Ghanem** | `taim_301506_c6` | **Req 5: Search, Pagination & Hosting**<br>SQL `LIKE` Search Filtering, 10-Item Server Pagination, Documentation, and InfinityFree Deployment. |
 
 ---
