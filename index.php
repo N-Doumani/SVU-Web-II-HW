@@ -89,8 +89,8 @@ session_start();
         <section class="hero mb-5">
             <div class="row align-items-center g-5">
                 <div class="col-12 col-lg-7">
-                <!-- University and Course Badge -->
-                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <!-- University and Course Badge -->
+                    <div class="d-flex flex-wrap gap-2 mb-3">
                         <span class="hero-badge"><i class="bi bi-mortarboard-fill"></i> Syrian Virtual University (SVU)</span>
                         <span class="badge bg-white text-primary fw-semibold px-3 py-2 rounded-pill d-inline-flex align-items-center">
                             BWP501 · Web Programming II
@@ -119,13 +119,14 @@ session_start();
                 <div class="col-lg-5 d-none d-lg-block" aria-hidden="true">
                     <div class="hero-preview">
                         <div class="d-flex align-items-center justify-content-between mb-2 px-1">
-                            <strong class="small">Students</strong>
-                            <span class="badge rounded-pill text-bg-primary">42 total</span>
+                            <strong class="small">Project Team</strong>
+                            <span class="badge rounded-pill text-bg-primary">5 members</span>
                         </div>
-                        <div class="row-line"><span class="avatar avatar-sm avatar-initials tone-1">AK</span><div class="flex-grow-1"><div class="fw-semibold">Ahmad Khalil</div><div class="skeleton w-75 mt-1"></div></div><i class="bi bi-pencil text-primary"></i></div>
-                        <div class="row-line"><span class="avatar avatar-sm avatar-initials tone-2">LH</span><div class="flex-grow-1"><div class="fw-semibold">Lina Haddad</div><div class="skeleton w-50 mt-1"></div></div><i class="bi bi-pencil text-primary"></i></div>
-                        <div class="row-line"><span class="avatar avatar-sm avatar-initials tone-3">OS</span><div class="flex-grow-1"><div class="fw-semibold">Omar Saleh</div><div class="skeleton w-75 mt-1"></div></div><i class="bi bi-pencil text-primary"></i></div>
-                        <div class="row-line"><span class="avatar avatar-sm avatar-initials tone-4">RY</span><div class="flex-grow-1"><div class="fw-semibold">Rana Youssef</div><div class="skeleton w-50 mt-1"></div></div><i class="bi bi-pencil text-primary"></i></div>
+                        <div class="row-line"><span class="avatar avatar-sm avatar-initials tone-1">ND</span><div class="flex-grow-1"><div class="fw-semibold">Nour aldeen aldoumani</div><div class="skeleton w-75 mt-1"></div></div><i class="bi bi-person-check-fill text-primary"></i></div>
+                        <div class="row-line"><span class="avatar avatar-sm avatar-initials tone-2">ZF</span><div class="flex-grow-1"><div class="fw-semibold">Ziena Foutina</div><div class="skeleton w-50 mt-1"></div></div><i class="bi bi-person-check-fill text-primary"></i></div>
+                        <div class="row-line"><span class="avatar avatar-sm avatar-initials tone-3">RA</span><div class="flex-grow-1"><div class="fw-semibold">Roua Alshekh Asaad</div><div class="skeleton w-75 mt-1"></div></div><i class="bi bi-person-check-fill text-primary"></i></div>
+                        <div class="row-line"><span class="avatar avatar-sm avatar-initials tone-4">AA</span><div class="flex-grow-1"><div class="fw-semibold">Ahed Nedal Alashoush</div><div class="skeleton w-50 mt-1"></div></div><i class="bi bi-person-check-fill text-primary"></i></div>
+                        <div class="row-line"><span class="avatar avatar-sm avatar-initials tone-1">TG</span><div class="flex-grow-1"><div class="fw-semibold">Taim Ghanem</div><div class="skeleton w-75 mt-1"></div></div><i class="bi bi-person-check-fill text-primary"></i></div>
                     </div>
                 </div>
             </div>
@@ -243,13 +244,13 @@ session_start();
                             <div class="d-flex align-items-center gap-3 mb-3">
                                 <span class="avatar avatar-sm avatar-initials tone-1 flex-shrink-0">M1</span>
                                 <div class="min-w-0">
-                                    <h3 class="h6 mb-0 fw-bold text-truncate">Nour aldeen aldouamni</h3>
+                                    <h3 class="h6 mb-0 fw-bold text-truncate">Nour aldeen aldoumani</h3>
                                     <span class="badge bg-white text-secondary border mt-1">ID: nour_aldeen_aldoumani_290139</span>
                                 </div>
                             </div>
                             <div class="pt-2 border-top">
-                                <span class="role-badge bg-primary-subtle text-primary">Database &amp; Auth</span>
-                                <p class="small text-muted-soft mb-0">SQL Database Setup, Password Hashing &amp; Session Management</p>
+                                <span class="role-badge bg-primary-subtle text-primary">Req 1: Database &amp; Auth</span>
+                                <p class="small text-muted-soft mb-0">SQL Database Setup (Users &amp; Students Tables), PDO Connection &amp; Password Hashing</p>
                             </div>
                         </div>
                     </div>
@@ -260,13 +261,13 @@ session_start();
                             <div class="d-flex align-items-center gap-3 mb-3">
                                 <span class="avatar avatar-sm avatar-initials tone-2 flex-shrink-0">M2</span>
                                 <div class="min-w-0">
-                                    <h3 class="h6 mb-0 fw-bold text-truncate">Ziena foutina</h3>
+                                    <h3 class="h6 mb-0 fw-bold text-truncate">Ziena Foutina</h3>
                                     <span class="badge bg-white text-secondary border mt-1">ID: ziena_187633</span>
                                 </div>
                             </div>
                             <div class="pt-2 border-top">
-                                <span class="role-badge bg-success-subtle text-success">Frontend &amp; UI</span>
-                                <p class="small text-muted-soft mb-0">UI Layout Design &amp; Mobile Responsiveness with Bootstrap 5</p>
+                                <span class="role-badge bg-success-subtle text-success">Req 2: Frontend &amp; Responsive UI</span>
+                                <p class="small text-muted-soft mb-0">HTML5, CSS3 &amp; Responsive Grid Layout with Bootstrap 5 Components</p>
                             </div>
                         </div>
                     </div>
@@ -277,13 +278,13 @@ session_start();
                             <div class="d-flex align-items-center gap-3 mb-3">
                                 <span class="avatar avatar-sm avatar-initials tone-3 flex-shrink-0">M3</span>
                                 <div class="min-w-0">
-                                    <h3 class="h6 mb-0 fw-bold text-truncate">Roua alshekh asaad</h3>
+                                    <h3 class="h6 mb-0 fw-bold text-truncate">Roua Alshekh Asaad</h3>
                                     <span class="badge bg-white text-secondary border mt-1">ID: roua_317850</span>
                                 </div>
                             </div>
                             <div class="pt-2 border-top">
-                                <span class="role-badge bg-info-subtle text-info-emphasis">AJAX &amp; Validation</span>
-                                <p class="small text-muted-soft mb-0">Real-time Email Validation via AJAX &amp; Client-side Form Checks</p>
+                                <span class="role-badge bg-info-subtle text-info-emphasis">Req 3: AJAX &amp; Client Validation</span>
+                                <p class="small text-muted-soft mb-0">Real-time Email Check via Fetch API &amp; Client-side Password Matching</p>
                             </div>
                         </div>
                     </div>
@@ -294,13 +295,13 @@ session_start();
                             <div class="d-flex align-items-center gap-3 mb-3">
                                 <span class="avatar avatar-sm avatar-initials tone-4 flex-shrink-0">M4</span>
                                 <div class="min-w-0">
-                                    <h3 class="h6 mb-0 fw-bold text-truncate">Student Name 4</h3>
-                                    <span class="badge bg-white text-secondary border mt-1">ID: 456789</span>
+                                    <h3 class="h6 mb-0 fw-bold text-truncate">Ahed Nedal Alashoush</h3>
+                                    <span class="badge bg-white text-secondary border mt-1">ID: ahed_338484_c6</span>
                                 </div>
                             </div>
                             <div class="pt-2 border-top">
-                                <span class="role-badge bg-warning-subtle text-warning-emphasis">CRUD &amp; Uploads</span>
-                                <p class="small text-muted-soft mb-0">Student Records Management (CRUD) &amp; Profile Picture Uploads</p>
+                                <span class="role-badge bg-warning-subtle text-warning-emphasis">Req 4: CRUD &amp; File Uploads</span>
+                                <p class="small text-muted-soft mb-0">Student Records Management (Add, Edit, Delete) &amp; Profile Picture Uploads (`move_uploaded_file`)</p>
                             </div>
                         </div>
                     </div>
@@ -311,13 +312,13 @@ session_start();
                             <div class="d-flex align-items-center gap-3 mb-3">
                                 <span class="avatar avatar-sm avatar-initials tone-1 flex-shrink-0">M5</span>
                                 <div class="min-w-0">
-                                    <h3 class="h6 mb-0 fw-bold text-truncate">Student Name 5</h3>
-                                    <span class="badge bg-white text-secondary border mt-1">ID: 567890</span>
+                                    <h3 class="h6 mb-0 fw-bold text-truncate">Taim Ghanem</h3>
+                                    <span class="badge bg-white text-secondary border mt-1">ID: taim_301506_c6</span>
                                 </div>
                             </div>
                             <div class="pt-2 border-top">
-                                <span class="role-badge bg-secondary-subtle text-secondary-emphasis">Search &amp; Pagination</span>
-                                <p class="small text-muted-soft mb-0">SQL Search Filtering, Pagination &amp; Final Documentation</p>
+                                <span class="role-badge bg-secondary-subtle text-secondary-emphasis">Req 5: Search, Pagination &amp; Deployment</span>
+                                <p class="small text-muted-soft mb-0">SQL `LIKE` Search, 10 Items/Page Pagination, Project Documentation &amp; Web Hosting</p>
                             </div>
                         </div>
                     </div>
