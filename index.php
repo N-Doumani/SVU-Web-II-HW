@@ -72,6 +72,7 @@ session_start();
                     <span class="navbar-text me-3 d-none d-lg-block">
                         Welcome, <strong><?php echo htmlspecialchars($_SESSION['username'] ?? 'User'); ?></strong>
                     </span>
+                    
                     <a class="btn btn-outline-danger" href="logout.php"><i class="bi bi-box-arrow-right"></i> Sign out</a>
                 <?php else: ?>
                     <a class="btn btn-outline-primary" href="login.php?redirect=index.php"><i class="bi bi-box-arrow-in-right"></i> Sign in</a>

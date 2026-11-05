@@ -82,6 +82,14 @@ $navAria  = fn (string $key): string => $key === $activePage ? ' aria-current="p
             <div class="nav-actions d-flex flex-column flex-lg-row gap-2 mt-3 mt-lg-0">
                 <?php if ($currentUser): ?>
                     <div class="dropdown">
+                                   <div class="nav-actions d-flex flex-column flex-lg-row align-items-lg-center gap-2 mt-3 mt-lg-0">
+                <!-- Dark Mode Toggle Button -->
+                <button id="themeToggle" class="btn btn-outline-secondary d-inline-flex align-items-center justify-content-center p-2 rounded-circle me-lg-2" type="button" aria-label="Toggle Dark Mode" title="Toggle Theme">
+                    <i id="themeIcon" class="bi bi-moon-stars-fill"></i>
+                </button>
+
+                <?php if ($currentUser): ?>
+                    <div class="dropdown">
                         <button class="btn btn-user dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <?= avatar_html(null, $currentUser, 'sm') ?>
                             <span><?= e($currentUser) ?></span>
@@ -92,6 +100,12 @@ $navAria  = fn (string $key): string => $key === $activePage ? ' aria-current="p
                             <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right"></i> Log out</a></li>
                         </ul>
                     </div>
+                <?php else: ?>
+                    <a class="btn btn-outline-primary" href="login.php"><i class="bi bi-box-arrow-in-right"></i> Sign in</a>
+                    <a class="btn btn-primary" href="register.php">Create account</a>
+                <?php endif; ?>
+            </div>
+                    
                 <?php else: ?>
                     <a class="btn btn-outline-primary" href="login.php"><i class="bi bi-box-arrow-in-right"></i> Sign in</a>
                     <a class="btn btn-primary" href="register.php">Create account</a>
