@@ -296,7 +296,7 @@ session_start();
                                 <span class="avatar avatar-sm avatar-initials tone-4 flex-shrink-0">M4</span>
                                 <div class="min-w-0">
                                     <h3 class="h6 mb-0 fw-bold text-truncate">Ahed Nedal Alashoush</h3>
-                                    <span class="badge bg-white text-secondary border mt-1">ID: ahed_338484_c6</span>
+                                    <span class="badge bg-white text-secondary border mt-1">ID: ahed_338484</span>
                                 </div>
                             </div>
                             <div class="pt-2 border-top">
@@ -313,7 +313,7 @@ session_start();
                                 <span class="avatar avatar-sm avatar-initials tone-1 flex-shrink-0">M5</span>
                                 <div class="min-w-0">
                                     <h3 class="h6 mb-0 fw-bold text-truncate">Taim Ghanem</h3>
-                                    <span class="badge bg-white text-secondary border mt-1">ID: taim_301506_c6</span>
+                                    <span class="badge bg-white text-secondary border mt-1">ID: taim_301506</span>
                                 </div>
                             </div>
                             <div class="pt-2 border-top">
